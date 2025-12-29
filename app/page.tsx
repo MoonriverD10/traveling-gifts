@@ -10,8 +10,7 @@ export default function Home() {
           src="/images/final-background.png"
           alt="Traveling Gifts - See America First"
           fill
-          className="object-cover object-center"
-          priority
+              className="object-contain object-center"          priority
           quality={100}
         />
       </div>
