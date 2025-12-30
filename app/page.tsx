@@ -153,15 +153,15 @@ export default function Home() {
         />
       </div>
 
-      {/* Modal with NEW Quote - LARGER WIDTH */}
+      {/* Modal with NEW Quote - WIDER (max-w-6xl) */}
       {showModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={() => setShowModal(false)}>
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           
-          {/* Modal Content - max-w-5xl with Caveat handwritten font */}
+          {/* Modal Content - WIDER with Patrick Hand for quote, Great Vibes for signature */}
           <div 
-            className="relative bg-gradient-to-br from-amber-50 to-orange-100 rounded-2xl shadow-2xl max-w-5xl w-full p-8 md:p-12 border-4 border-amber-600"
+            className="relative bg-gradient-to-br from-amber-50 to-orange-100 rounded-2xl shadow-2xl max-w-6xl w-full p-8 md:p-12 border-4 border-amber-600"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -177,20 +177,20 @@ export default function Home() {
               The Big Picture
             </h2>
 
-            {/* NEW Quote in Caveat Handwritten Font */}
+            {/* NEW Quote in Patrick Hand - LEGIBLE Handwritten (NOT Script) */}
             <div className="text-center space-y-6">
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Caveat', 'Kalam', cursive" }}>
+              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Patrick Hand', 'Architects Daughter', cursive" }}>
                 Our hope is that this puzzle travels the world, spreading a little joy wherever it lands—each person keeping one piece as a souvenir of having figured something out, or at least tried.
               </p>
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Caveat', 'Kalam', cursive" }}>
+              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Patrick Hand', 'Architects Daughter', cursive" }}>
                 And if the puzzle survives long enough, it may eventually reach someone with only one piece left to add. The irony, of course, is that this will be the hardest puzzle of all.
               </p>
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Caveat', 'Kalam', cursive" }}>
+              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Patrick Hand', 'Architects Daughter', cursive" }}>
                 Which may be the point: the joy was never in completing it, but in giving pieces away.
               </p>
               
-              {/* Hand Signature Style */}
-              <p className="text-2xl md:text-3xl text-amber-900 mt-10" style={{ fontFamily: "'Caveat', 'Kalam', cursive", fontWeight: 600 }}>
+              {/* Fancy Script Signature - Great Vibes */}
+              <p className="text-3xl md:text-4xl text-amber-900 mt-10" style={{ fontFamily: "'Great Vibes', 'Allura', cursive", fontWeight: 400 }}>
                 - Nick & Sharon Pavlovits
               </p>
             </div>
@@ -201,8 +201,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* Google Fonts for Caveat Handwritten Font */}
-      <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+      {/* Google Fonts for Patrick Hand (main quote) and Great Vibes (signature) */}
+      <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Great+Vibes&display=swap" rel="stylesheet" />
       
       {/* Custom flash animation */}
       <style jsx global>{`
