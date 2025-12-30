@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 export default function FeaturedPuzzlePage() {
-  const [showMemoryAnchors, setShowMemoryAnchors] = useState(false);
   const [showStories, setShowStories] = useState(false);
 
   return (
@@ -29,7 +28,7 @@ export default function FeaturedPuzzlePage() {
       {/* Content */}
       <div className="relative z-10">
         
-        {/* Section 1 - Teamwork Makes the Dream Work - MOVED TO TOP */}
+        {/* Section 1 - Teamwork Makes the Dream Work */}
         <section className="py-20 px-4">
           <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
             <h2 className="text-4xl font-bold text-amber-900 mb-6 flex items-center gap-3">
@@ -50,40 +49,7 @@ export default function FeaturedPuzzlePage() {
           </div>
         </section>
 
-        {/* Section 2 - Memory Anchors - Clickable/Collapsible */}
-        <section className="py-8 px-4">
-          <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
-            <button 
-              onClick={() => setShowMemoryAnchors(!showMemoryAnchors)}
-              className="w-full text-left flex items-center justify-between group hover:opacity-80 transition-opacity"
-            >
-              <h2 className="text-4xl font-bold text-amber-900 flex items-center gap-3">
-                <span className="text-5xl">🏔️</span>
-                Memory Anchors
-              </h2>
-              <span className="text-3xl text-amber-600 group-hover:scale-110 transition-transform">
-                {showMemoryAnchors ? '▲' : '▼'}
-              </span>
-            </button>
-            
-            {showMemoryAnchors && (
-              <div className="prose prose-lg text-gray-700 mt-6 animate-fadeIn">
-                <p>
-                  National Park puzzles are more than décor—they're memory anchors. Whether you 
-                  hiked the rim at Grand Canyon, watched elk graze at Rocky Mountain, or dream of 
-                  one day standing before Old Faithful, completing a park-themed puzzle lets you 
-                  relive the wonder or build anticipation for adventures ahead.
-                </p>
-              </div>
-            )}
-            
-            {!showMemoryAnchors && (
-              <p className="text-amber-600 mt-2 text-sm italic">Click to discover why puzzles become keepsakes...</p>
-            )}
-          </div>
-        </section>
-
-        {/* Section 3 - Every Puzzle Has a Tale - Clickable with Hook */}
+        {/* Section 2 - Every Puzzle Has a Tale - Clickable with Hook */}
         <section className="py-8 px-4">
           <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
             <button 
@@ -134,23 +100,6 @@ export default function FeaturedPuzzlePage() {
                 👉 Click to see how your puzzle story becomes part of something bigger...
               </p>
             )}
-          </div>
-        </section>
-
-        {/* Section 4 - Yoga for the Mind - MOVED TO BOTTOM */}
-        <section className="py-8 px-4">
-          <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
-            <h2 className="text-4xl font-bold text-amber-900 mb-6 flex items-center gap-3">
-              <span className="text-5xl">🧘‍♀️</span>
-              Yoga for the Mind
-            </h2>
-            <div className="prose prose-lg text-gray-700">
-              <p>
-                Jigsaw puzzles are a meditation hack for your brain. Every time you click a piece 
-                into place, your brain releases dopamine—the neurotransmitter that regulates mood, 
-                memory, and concentration.
-              </p>
-            </div>
           </div>
         </section>
 
