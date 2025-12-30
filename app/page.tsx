@@ -1,13 +1,25 @@
 'use client';
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const handleClick = () => {
+    // Play camera shutter sound
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+    setShowModal(true);
+  };
 
   return (
     <main className="relative min-h-screen w-full">
+      {/* Camera shutter sound */}
+      <audio ref={audioRef} src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZUBAQW7Hj8bFdGQc8kNP0xn8pBSh+zPLaizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/" preload="auto" />
+
       {/* Full Background with Everything Baked In */}
       <div className="fixed inset-0 -z-10">
         <Image
@@ -95,22 +107,26 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Blinking Arrow Pointing to Camera */}
-      <div className="fixed bottom-[45%] left-[14%] md:left-[16%] animate-bounce z-50 cursor-pointer" onClick={() => setShowModal(true)}>
-        <div className="relative">
-          <svg width="60" height="60" viewBox="0 0 60 60" className="animate-pulse">
-            <path d="M30 10 L50 30 L40 30 L40 50 L20 50 L20 30 L10 30 Z" fill="#f59e0b" stroke="#92400e" strokeWidth="2" />
-          </svg>
-          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap bg-amber-600 text-white px-3 py-1 rounded-lg text-sm font-bold shadow-lg">
-            The Big Picture!
+      {/* Horizontal Arrow Pointing LEFT to Camera with New Text */}
+      <div className="fixed bottom-[48%] left-[20%] md:left-[22%] flex items-center gap-3 animate-bounce z-50 cursor-pointer" onClick={handleClick}>
+        {/* Text Label in Franklin Gothic */}
+        <div className="bg-amber-600 text-white px-4 py-2 rounded-lg shadow-lg" style={{ fontFamily: '"Franklin Gothic Medium", "Franklin Gothic", Arial, sans-serif' }}>
+          <div className="text-sm md:text-base font-bold whitespace-nowrap">
+            A Sacred Secret Message
           </div>
+          <div className="text-xs md:text-sm text-center">Click Here</div>
         </div>
+        
+        {/* Left-pointing arrow */}
+        <svg width="50" height="50" viewBox="0 0 60 60" className="animate-pulse">
+          <path d="M50 30 L30 10 L30 20 L10 20 L10 40 L30 40 L30 50 Z" fill="#f59e0b" stroke="#92400e" strokeWidth="2" />
+        </svg>
       </div>
 
       {/* Invisible clickable area over the camera */}
       <div 
         className="fixed bottom-[35%] left-[8%] w-[100px] h-[100px] md:w-[120px] md:h-[120px] cursor-pointer z-40"
-        onClick={() => setShowModal(true)}
+        onClick={handleClick}
         title="Click to see The Big Picture"
       />
 
