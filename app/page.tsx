@@ -8,17 +8,21 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleClick = () => {
-    // Play camera shutter sound
+    // Play vintage camera shutter sound
     if (audioRef.current) {
-      audioRef.current.play();
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(e => console.log('Audio play failed:', e));
     }
     setShowModal(true);
   };
 
   return (
     <main className="relative min-h-screen w-full">
-      {/* Camera shutter sound */}
-      <audio ref={audioRef} src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZUBAQW7Hj8bFdGQc8kNP0xn8pBSh+zPLaizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/ze/aizsIGGS67OihUhELTqXh8bllHAU2jdXzyn0rBSd/" preload="auto" />
+      {/* Vintage 35mm camera shutter sound */}
+      <audio ref={audioRef}>
+        <source src="https://www.soundjay.com/mechanical/sounds/camera-shutter-click-01.mp3" type="audio/mpeg" />
+        <source src="https://assets.mixkit.co/active_storage/sfx/2627/2627-preview.mp3" type="audio/mpeg" />
+      </audio>
 
       {/* Full Background with Everything Baked In */}
       <div className="fixed inset-0 -z-10">
@@ -107,25 +111,52 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Horizontal Arrow Pointing LEFT to Camera with New Text */}
-      <div className="fixed bottom-[48%] left-[20%] md:left-[22%] flex items-center gap-3 animate-bounce z-50 cursor-pointer" onClick={handleClick}>
-        {/* Text Label in Franklin Gothic */}
-        <div className="bg-amber-600 text-white px-4 py-2 rounded-lg shadow-lg" style={{ fontFamily: '"Franklin Gothic Medium", "Franklin Gothic", Arial, sans-serif' }}>
+      {/* Sacred Secret Message Button with Curved Arrows - Repositioned Higher */}
+      <div className="fixed top-[30%] left-[17%] md:top-[32%] md:left-[19%] flex items-center gap-3 animate-bounce z-50">
+        {/* Button */}
+        <button 
+          onClick={handleClick}
+          className="bg-amber-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-amber-700 transition-colors cursor-pointer"
+          style={{ fontFamily: '"Franklin Gothic Medium", "Franklin Gothic", Arial, sans-serif' }}
+        >
           <div className="text-sm md:text-base font-bold whitespace-nowrap">
             A Sacred Secret Message
           </div>
           <div className="text-xs md:text-sm text-center">Click Here</div>
+        </button>
+
+        {/* Curved Arrow Container */}
+        <div className="relative w-[100px] h-[80px]">
+          {/* First curved arrow pointing down-left to camera */}
+          <svg className="absolute top-0 left-0 animate-pulse" width="100" height="80" viewBox="0 0 100 80">
+            <defs>
+              <marker id="arrowhead1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="#dc2626" />
+              </marker>
+            </defs>
+            <path d="M 10 5 Q 30 20, 40 45" stroke="#dc2626" strokeWidth="3" fill="none" marker-end="url(#arrowhead1)" />
+          </svg>
+          
+          {/* Second curved arrow pointing down to suitcase */}
+          <svg className="absolute top-0 left-[30px] animate-pulse" width="100" height="80" viewBox="0 0 100 80" style={{ animationDelay: '0.2s' }}>
+            <defs>
+              <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="#dc2626" />
+              </marker>
+            </defs>
+            <path d="M 15 5 Q 25 25, 30 50" stroke="#dc2626" strokeWidth="3" fill="none" marker-end="url(#arrowhead2)" />
+          </svg>
         </div>
-        
-        {/* Left-pointing arrow */}
-        <svg width="50" height="50" viewBox="0 0 60 60" className="animate-pulse">
-          <path d="M50 30 L30 10 L30 20 L10 20 L10 40 L30 40 L30 50 Z" fill="#f59e0b" stroke="#92400e" strokeWidth="2" />
-        </svg>
       </div>
 
-      {/* Invisible clickable area over the camera */}
+      {/* Invisible clickable areas over camera and suitcase */}
       <div 
         className="fixed bottom-[35%] left-[8%] w-[100px] h-[100px] md:w-[120px] md:h-[120px] cursor-pointer z-40"
+        onClick={handleClick}
+        title="Click to see The Big Picture"
+      />
+      <div 
+        className="fixed bottom-[32%] left-[2%] w-[90px] h-[120px] md:w-[110px] md:h-[140px] cursor-pointer z-40"
         onClick={handleClick}
         title="Click to see The Big Picture"
       />
@@ -154,7 +185,7 @@ export default function Home() {
               The Big Picture
             </h2>
 
-            {/* Quote in Beautiful Script Font */}
+            {/* Quote in Beautiful Script Font - Fixed line breaks */}
             <div className="text-center space-y-6">
               <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Dancing Script', 'Brush Script MT', cursive" }}>
                 “It is our hope that this puzzle should travel far beyond our hands, passing from home to home and heart to heart, carrying with it a small but steady joy.
