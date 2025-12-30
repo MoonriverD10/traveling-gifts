@@ -127,8 +127,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Click Here Button with Arrow Pointing to Camera */}
-      <div className="fixed bottom-[40%] right-[20%] md:bottom-[42%] md:right-[22%] flex items-center gap-2 animate-bounce z-50">
+      {/* Click Here Button - NO ARROW */}
+      <div className="fixed bottom-[40%] right-[20%] md:bottom-[42%] md:right-[22%] animate-bounce z-50">
         <button 
           onClick={handleClick}
           className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg shadow-xl font-bold text-sm md:text-base transition-colors"
@@ -136,16 +136,6 @@ export default function Home() {
         >
           Click Here!
         </button>
-        
-        {/* Arrow pointing down-right to camera */}
-        <svg width="40" height="40" viewBox="0 0 40 40" className="animate-pulse">
-          <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-              <polygon points="0 0, 10 3, 0 6" fill="#d97706" />
-            </marker>
-          </defs>
-          <path d="M 5 5 Q 20 15, 30 30" stroke="#d97706" strokeWidth="3" fill="none" marker-end="url(#arrowhead)" />
-        </svg>
       </div>
 
       {/* Clickable Vintage Camera - Positioned on Right Side Table */}
@@ -163,13 +153,13 @@ export default function Home() {
         />
       </div>
 
-      {/* Modal with Quote - LARGER WIDTH */}
+      {/* Modal with NEW Quote - LARGER WIDTH */}
       {showModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={() => setShowModal(false)}>
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           
-          {/* Modal Content - Increased max-width to max-w-5xl */}
+          {/* Modal Content - max-w-5xl with Caveat handwritten font */}
           <div 
             className="relative bg-gradient-to-br from-amber-50 to-orange-100 rounded-2xl shadow-2xl max-w-5xl w-full p-8 md:p-12 border-4 border-amber-600"
             onClick={(e) => e.stopPropagation()}
@@ -187,18 +177,20 @@ export default function Home() {
               The Big Picture
             </h2>
 
-            {/* Quote in Beautiful Script Font */}
+            {/* NEW Quote in Caveat Handwritten Font */}
             <div className="text-center space-y-6">
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Dancing Script', 'Brush Script MT', cursive" }}>
-                “It is our hope that this puzzle should travel far beyond our hands, passing from home to home and heart to heart, carrying with it a small but steady joy.
+              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Caveat', 'Kalam', cursive" }}>
+                Our hope is that this puzzle travels the world, spreading a little joy wherever it lands—each person keeping one piece as a souvenir of having figured something out, or at least tried.
               </p>
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Dancing Script', 'Brush Script MT', cursive" }}>
-                May each person who receives it add a piece and then give it onward, until at last the pieces are nearly gone.
+              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Caveat', 'Kalam', cursive" }}>
+                And if the puzzle survives long enough, it may eventually reach someone with only one piece left to add. The irony, of course, is that this will be the hardest puzzle of all.
               </p>
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Dancing Script', 'Brush Script MT', cursive" }}>
-                And when the final traveler opens the box to find only one piece remaining, perhaps they will discover what we all were meant to learn—that the truest joy was never in completing the puzzle, but in giving it away.”
+              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Caveat', 'Kalam', cursive" }}>
+                Which may be the point: the joy was never in completing it, but in giving pieces away.
               </p>
-              <p className="text-lg md:text-xl font-semibold text-amber-900 mt-8">
+              
+              {/* Hand Signature Style */}
+              <p className="text-2xl md:text-3xl text-amber-900 mt-10" style={{ fontFamily: "'Caveat', 'Kalam', cursive", fontWeight: 600 }}>
                 - Nick & Sharon Pavlovits
               </p>
             </div>
@@ -209,8 +201,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* Google Fonts for Dancing Script */}
-      <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+      {/* Google Fonts for Caveat Handwritten Font */}
+      <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
       
       {/* Custom flash animation */}
       <style jsx global>{`
