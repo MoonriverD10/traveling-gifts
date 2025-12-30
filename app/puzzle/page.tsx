@@ -24,15 +24,15 @@ export default function FeaturedPuzzlePage() {
       {/* Content */}
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative py-12 px-4 text-center">
+        <section className="relative pt-12 pb-4 px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
               <div className="inline-block">
                 <Image
                   src="/images/Small Puzzle Image.png"
                   alt="Puzzle Piece"
-                  width={100}
-                  height={100}
+                  width={50}
+                  height={50}
                   className="drop-shadow-2xl"
                 />
               </div>
