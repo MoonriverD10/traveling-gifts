@@ -24,23 +24,23 @@ export default function FeaturedPuzzlePage() {
       {/* Content */}
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative py-20 px-4 text-center">
+        <section className="relative py-12 px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
               <div className="inline-block">
                 <Image
                   src="/images/Small Puzzle Image.png"
                   alt="Puzzle Piece"
-                  width={200}
-                  height={200}
+                  width={100}
+                  height={100}
                   className="drop-shadow-2xl"
                 />
               </div>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
               Featured Puzzle
             </h1>
-            <p className="text-2xl md:text-3xl text-amber-100 italic font-light drop-shadow-md">
+            <p className="text-lg md:text-xl text-amber-100 italic font-light drop-shadow-md">
               Unplug. Connect. Remember.
             </p>
           </div>
