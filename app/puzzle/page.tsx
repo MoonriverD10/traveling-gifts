@@ -12,7 +12,7 @@ export default function FeaturedPuzzlePage() {
       {/* Background Image */}
       <div className="fixed inset-0 z-0">
         <Image
-          src="/images/glacier-bg.jpg"
+          src="/images/Glacier.png"
           alt="Glacier National Park"
           fill
           style={{ objectFit: 'cover' }}
@@ -29,7 +29,7 @@ export default function FeaturedPuzzlePage() {
             <div className="mb-8">
               <div className="inline-block">
                 <Image
-                  src="/images/puzzle-piece-hero.png"
+                  src="/images/Small Puzzle Image.png"
                   alt="Puzzle Piece"
                   width={200}
                   height={200}
