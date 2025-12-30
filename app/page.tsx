@@ -181,7 +181,7 @@ export default function Home() {
             <div className="text-center space-y-6">
               <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Patrick Hand', 'Architects Daughter', cursive" }}>
 We hope this puzzle travels the world, passing from home to home and hand to hand. Pieces will be puzzled over, shared, misplaced, and occasionally stolen by a cat. And if the journey goes far enough, one poor soul may end up holding the very last piece. At first, they may think, "This 1,000-piece puzzle sucks." But then, like a small candle lit in a dark room, something changes—not the puzzle, but how they see it. And in that light, the truth appears: life is a puzzle—meant to be lived one piece at a time.
-              
+              </p>              
               {/* Fancy Script Signature - Great Vibes */}
               <p className="text-3xl md:text-4xl text-amber-900 mt-10" style={{ fontFamily: "'Great Vibes', 'Allura', cursive", fontWeight: 400 }}>
                 - Nick & Sharon Pavlovits
