@@ -180,14 +180,7 @@ export default function Home() {
             {/* NEW Quote in Patrick Hand - LEGIBLE Handwritten (NOT Script) */}
             <div className="text-center space-y-6">
               <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Patrick Hand', 'Architects Daughter', cursive" }}>
-                Our hope is that this puzzle travels the world, spreading a little joy wherever it lands—each person keeping one piece as a souvenir of having figured something out, or at least tried.
-              </p>
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Patrick Hand', 'Architects Daughter', cursive" }}>
-                And if the puzzle survives long enough, it may eventually reach someone with only one piece left to add. The irony, of course, is that this will be the hardest puzzle of all.
-              </p>
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Patrick Hand', 'Architects Daughter', cursive" }}>
-                Which may be the point: the joy was never in completing it, but in giving pieces away.
-              </p>
+We hope this puzzle travels the world, passing from home to home and hand to hand. Pieces will be puzzled over, shared, misplaced, and occasionally stolen by a cat. And if the journey goes far enough, one poor soul may end up holding the very last piece. At first, they may think, "This 1,000-piece puzzle sucks." But then, like a small candle lit in a dark room, something changes—not the puzzle, but how they see it. And in that light, the truth appears: life is a puzzle—meant to be lived one piece at a time.
               
               {/* Fancy Script Signature - Great Vibes */}
               <p className="text-3xl md:text-4xl text-amber-900 mt-10" style={{ fontFamily: "'Great Vibes', 'Allura', cursive", fontWeight: 400 }}>
