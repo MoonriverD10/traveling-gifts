@@ -111,55 +111,20 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Sacred Secret Message Button with Curved Arrows - Repositioned Higher */}
-      <div className="fixed top-[30%] left-[17%] md:top-[32%] md:left-[19%] flex items-center gap-3 animate-bounce z-50">
-        {/* Button */}
-        <button 
-          onClick={handleClick}
-          className="bg-amber-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-amber-700 transition-colors cursor-pointer"
-          style={{ fontFamily: '"Franklin Gothic Medium", "Franklin Gothic", Arial, sans-serif' }}
-        >
-          <div className="text-sm md:text-base font-bold whitespace-nowrap">
-            A Sacred Secret Message
-          </div>
-          <div className="text-xs md:text-sm text-center">Click Here</div>
-        </button>
-
-        {/* Curved Arrow Container */}
-        <div className="relative w-[100px] h-[80px]">
-          {/* First curved arrow pointing down-left to camera */}
-          <svg className="absolute top-0 left-0 animate-pulse" width="100" height="80" viewBox="0 0 100 80">
-            <defs>
-              <marker id="arrowhead1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                <polygon points="0 0, 10 3, 0 6" fill="#dc2626" />
-              </marker>
-            </defs>
-            <path d="M 10 5 Q 30 20, 40 45" stroke="#dc2626" strokeWidth="3" fill="none" marker-end="url(#arrowhead1)" />
-          </svg>
-          
-          {/* Second curved arrow pointing down to suitcase */}
-          <svg className="absolute top-0 left-[30px] animate-pulse" width="100" height="80" viewBox="0 0 100 80" style={{ animationDelay: '0.2s' }}>
-            <defs>
-              <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                <polygon points="0 0, 10 3, 0 6" fill="#dc2626" />
-              </marker>
-            </defs>
-            <path d="M 15 5 Q 25 25, 30 50" stroke="#dc2626" strokeWidth="3" fill="none" marker-end="url(#arrowhead2)" />
-          </svg>
-        </div>
+      {/* Clickable Vintage Camera - Positioned on Right Side Table */}
+      <div 
+        className="fixed bottom-[33%] right-[13%] md:bottom-[35%] md:right-[15%] cursor-pointer z-50 group"
+        onClick={handleClick}
+        title="Click to see The Big Picture"
+      >
+        <Image
+          src="/images/Camera Right side.png"
+          alt="Vintage Camera"
+          width={180}
+          height={180}
+          className="transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-2xl group-hover:brightness-110"
+        />
       </div>
-
-      {/* Invisible clickable areas over camera and suitcase */}
-      <div 
-        className="fixed bottom-[35%] left-[8%] w-[100px] h-[100px] md:w-[120px] md:h-[120px] cursor-pointer z-40"
-        onClick={handleClick}
-        title="Click to see The Big Picture"
-      />
-      <div 
-        className="fixed bottom-[32%] left-[2%] w-[90px] h-[120px] md:w-[110px] md:h-[140px] cursor-pointer z-40"
-        onClick={handleClick}
-        title="Click to see The Big Picture"
-      />
 
       {/* Modal with Quote */}
       {showModal && (
@@ -185,7 +150,7 @@ export default function Home() {
               The Big Picture
             </h2>
 
-            {/* Quote in Beautiful Script Font - Fixed line breaks */}
+            {/* Quote in Beautiful Script Font */}
             <div className="text-center space-y-6">
               <p className="text-xl md:text-2xl leading-relaxed text-gray-800" style={{ fontFamily: "'Dancing Script', 'Brush Script MT', cursive" }}>
                 “It is our hope that this puzzle should travel far beyond our hands, passing from home to home and heart to heart, carrying with it a small but steady joy.
