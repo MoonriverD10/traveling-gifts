@@ -28,26 +28,9 @@ export default function FeaturedPuzzlePage() {
 
       {/* Content */}
       <div className="relative z-10">
-       
-        {/* Section 1 - Yoga for the Mind - Condensed */}
+        
+        {/* Section 1 - Teamwork Makes the Dream Work - MOVED TO TOP */}
         <section className="py-20 px-4">
-          <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
-            <h2 className="text-4xl font-bold text-amber-900 mb-6 flex items-center gap-3">
-              <span className="text-5xl">🧘‍♀️</span>
-              Yoga for the Mind
-            </h2>
-            <div className="prose prose-lg text-gray-700">
-              <p>
-                Jigsaw puzzles are a meditation hack for your brain. Every time you click a piece 
-                into place, your brain releases dopamine—the neurotransmitter that regulates mood, 
-                memory, and concentration.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 2 - Better Together with Updated Quote */}
-        <section className="py-8 px-4">
           <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
             <h2 className="text-4xl font-bold text-amber-900 mb-6 flex items-center gap-3">
               <span className="text-5xl">🤝</span>
@@ -61,14 +44,13 @@ export default function FeaturedPuzzlePage() {
               </p>
               
               <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-600 p-6 my-8 italic text-xl text-amber-900 rounded-lg shadow-md">
-                "The last piece clicks into place—and so does something between you. Of course, 
-                unless the last piece has been lost—then all hell breaks loose!"
+                "When the last piece clicks into place, something clicks between you both—unless the last piece has gone missing. Then all Hell breaks out!"
               </div>
             </div>
           </div>
         </section>
 
-        {/* Section 3 - Memory Anchors - Clickable/Collapsible */}
+        {/* Section 2 - Memory Anchors - Clickable/Collapsible */}
         <section className="py-8 px-4">
           <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
             <button 
@@ -101,7 +83,7 @@ export default function FeaturedPuzzlePage() {
           </div>
         </section>
 
-        {/* Section 4 - Every Puzzle Has a Tale - Clickable with Hook */}
+        {/* Section 3 - Every Puzzle Has a Tale - Clickable with Hook */}
         <section className="py-8 px-4">
           <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
             <button 
@@ -155,6 +137,23 @@ export default function FeaturedPuzzlePage() {
           </div>
         </section>
 
+        {/* Section 4 - Yoga for the Mind - MOVED TO BOTTOM */}
+        <section className="py-8 px-4">
+          <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
+            <h2 className="text-4xl font-bold text-amber-900 mb-6 flex items-center gap-3">
+              <span className="text-5xl">🧘‍♀️</span>
+              Yoga for the Mind
+            </h2>
+            <div className="prose prose-lg text-gray-700">
+              <p>
+                Jigsaw puzzles are a meditation hack for your brain. Every time you click a piece 
+                into place, your brain releases dopamine—the neurotransmitter that regulates mood, 
+                memory, and concentration.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Call to Action */}
         <section className="py-16 px-4 text-center">
           <div className="max-w-4xl mx-auto space-y-6">
@@ -192,6 +191,7 @@ export default function FeaturedPuzzlePage() {
             ← Back to Home
           </Link>
         </section>
+
       </div>
     </main>
   );
