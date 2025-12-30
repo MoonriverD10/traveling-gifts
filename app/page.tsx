@@ -134,7 +134,7 @@ export default function Home() {
           className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg shadow-xl font-bold text-sm md:text-base transition-colors"
           style={{ fontFamily: '"Franklin Gothic Medium", "Franklin Gothic", Arial, sans-serif' }}
         >
-          Click Here!
+          Click Camera
         </button>
       </div>
 
