@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
+  const [showFlash, setShowFlash] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleClick = () => {
@@ -13,6 +14,11 @@ export default function Home() {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch(e => console.log('Audio play failed:', e));
     }
+    
+    // Trigger camera flash effect
+    setShowFlash(true);
+    setTimeout(() => setShowFlash(false), 300);
+    
     setShowModal(true);
   };
 
@@ -23,6 +29,16 @@ export default function Home() {
         <source src="https://www.soundjay.com/mechanical/sounds/camera-shutter-click-01.mp3" type="audio/mpeg" />
         <source src="https://assets.mixkit.co/active_storage/sfx/2627/2627-preview.mp3" type="audio/mpeg" />
       </audio>
+
+      {/* Camera Flash Effect */}
+      {showFlash && (
+        <div 
+          className="fixed inset-0 z-[200] bg-white pointer-events-none"
+          style={{
+            animation: 'flash 0.3s ease-out'
+          }}
+        />
+      )}
 
       {/* Full Background with Everything Baked In */}
       <div className="fixed inset-0 -z-10">
@@ -111,6 +127,27 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Click Here Button with Arrow Pointing to Camera */}
+      <div className="fixed bottom-[40%] right-[20%] md:bottom-[42%] md:right-[22%] flex items-center gap-2 animate-bounce z-50">
+        <button 
+          onClick={handleClick}
+          className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg shadow-xl font-bold text-sm md:text-base transition-colors"
+          style={{ fontFamily: '"Franklin Gothic Medium", "Franklin Gothic", Arial, sans-serif' }}
+        >
+          Click Here!
+        </button>
+        
+        {/* Arrow pointing down-right to camera */}
+        <svg width="40" height="40" viewBox="0 0 40 40" className="animate-pulse">
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#d97706" />
+            </marker>
+          </defs>
+          <path d="M 5 5 Q 20 15, 30 30" stroke="#d97706" strokeWidth="3" fill="none" marker-end="url(#arrowhead)" />
+        </svg>
+      </div>
+
       {/* Clickable Vintage Camera - Positioned on Right Side Table */}
       <div 
         className="fixed bottom-[33%] right-[13%] md:bottom-[35%] md:right-[15%] cursor-pointer z-50 group"
@@ -126,15 +163,15 @@ export default function Home() {
         />
       </div>
 
-      {/* Modal with Quote */}
+      {/* Modal with Quote - LARGER WIDTH */}
       {showModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={() => setShowModal(false)}>
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           
-          {/* Modal Content */}
+          {/* Modal Content - Increased max-width to max-w-5xl */}
           <div 
-            className="relative bg-gradient-to-br from-amber-50 to-orange-100 rounded-2xl shadow-2xl max-w-3xl w-full p-8 md:p-12 border-4 border-amber-600"
+            className="relative bg-gradient-to-br from-amber-50 to-orange-100 rounded-2xl shadow-2xl max-w-5xl w-full p-8 md:p-12 border-4 border-amber-600"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -174,6 +211,15 @@ export default function Home() {
 
       {/* Google Fonts for Dancing Script */}
       <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
+      
+      {/* Custom flash animation */}
+      <style jsx global>{`
+        @keyframes flash {
+          0% { opacity: 0; }
+          50% { opacity: 0.9; }
+          100% { opacity: 0; }
+        }
+      `}</style>
     </main>
   );
 }
