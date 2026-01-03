@@ -38,7 +38,7 @@ export default function CompletionPicsPage() {
       const response = await fetch('/api/completion-pics');
       if (response.ok) {
         const data = await response.json();
-        setCompletionPics(data.completionPics || []);
+        setCompletionPics(data.data || []);
       }
     } catch (err) {
       console.error('Failed to fetch completion pics:', err);
