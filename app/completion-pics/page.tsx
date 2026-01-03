@@ -140,7 +140,7 @@ export default function CompletionPicsPage() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                 placeholder="Enter your name"
               />
             </div>
@@ -157,7 +157,7 @@ export default function CompletionPicsPage() {
                 value={formData.location}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                 placeholder="City, State, Country"
               />
             </div>
@@ -174,7 +174,7 @@ export default function CompletionPicsPage() {
                 value={formData.completionDate}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
               />
             </div>
 
@@ -189,7 +189,7 @@ export default function CompletionPicsPage() {
                 name="caption"
                 value={formData.caption}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                 placeholder="A short caption for your photo (optional)"
               />
             </div>
@@ -205,7 +205,7 @@ export default function CompletionPicsPage() {
                 value={formData.story}
                 onChange={handleChange}
                 rows={6}
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                 placeholder="Tell us about your puzzle journey... How long did it take? Any challenges? Missing pieces? Was it worth it?"
               />
               <p className="text-sm text-amber-700 mt-2 italic">
