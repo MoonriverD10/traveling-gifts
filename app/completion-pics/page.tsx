@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 interface CompletionPic {
   id: string;
-  name: string;
+  submittedBy: string;
   location: string;
   completionDate: string;
   caption: string;
@@ -309,11 +309,11 @@ export default function CompletionPicsPage() {
                 </div>
                 <img
                   src={pic.imageUrl}
-                  alt={`Completed by ${pic.name}`}
+                  alt={`Completed by ${picpic.submittedByname}`}
                   className="w-full h-auto rounded mb-4 max-h-96 object-cover"
                 />
                 <p className="text-lg text-gray-800 mb-2">
-                  <strong>Completed by:</strong> {pic.name}
+                  <strong>Completed by:</strong> {picpic.submittedByname}
                 </p>
                 {pic.caption && (
                   <p className="text-lg text-gray-800 mb-2">
