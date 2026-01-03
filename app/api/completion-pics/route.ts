@@ -42,6 +42,7 @@ async function saveMetadata(pics: CompletionPic[]): Promise<void> {
   await put(METADATA_BLOB_NAME, JSON.stringify(pics), {
     access: 'public',
     contentType: 'application/json',
+        addRandomSuffix: false,
   });
 }
 
