@@ -12,27 +12,47 @@ export default function WhoHasItPage() {
     story: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // For now, we'll just show a success message
-    // Later we can connect to a backend/database
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: '',
-        location: '',
-        city: '',
-        state: '',
-        country: '',
-        dateReceived: '',
-        story: ''
+        e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/who-has-it', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to submit');
+      }
+
+      setSubmitted(true);
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          name: '',
+          location: '',
+          city: '',
+          state: '',
+          country: '',
+          dateReceived: '',
+          story: ''
+        });
+      }, 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to submit. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }, 3000);
   };
 
@@ -66,6 +86,12 @@ export default function WhoHasItPage() {
             ✅ Thank you! Your entry has been submitted!
           </div>
         )}
+
+          {error && (
+            <div className="bg-red-100 border-2 border-red-500 text-red-800 px-6 py-4 rounded-lg mb-6 text-center font-bold animate-pulse">
+              ✗ {error}
+            </div>
+          )}
 
         <div className="bg-white rounded-2xl shadow-2xl p-8 border-4 border-amber-600">
           <h2 className="text-2xl font-bold text-amber-900 mb-6">📝 Log Your Puzzle Location</h2>
@@ -176,9 +202,10 @@ export default function WhoHasItPage() {
             {/* Submit Button */}
             <button
               type="submit"
+              disabled={isSubmitting}
               className="w-full bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-lg shadow-xl font-bold text-xl transition-all duration-300 hover:scale-105"
             >
-              🚀 Submit My Location
+              {isSubmitting ? '⏳ Submitting...' : '🗺️ Submit My Location'}
             </button>
           </form>
         </div>
