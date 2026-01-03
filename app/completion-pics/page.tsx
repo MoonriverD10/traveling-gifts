@@ -1,5 +1,16 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+interface CompletionPic {
+  id: string;
+  name: string;
+  location: string;
+  completionDate: string;
+  caption: string;
+  story: string;
+  imageUrl: string;
+  timestamp: number;
+}
 
 export default function CompletionPicsPage() {
   const [formData, setFormData] = useState({
@@ -14,6 +25,27 @@ export default function CompletionPicsPage() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [completionPics, setCompletionPics] = useState<CompletionPic[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch completion pics on mount
+  useEffect(() => {
+    fetchCompletionPics();
+  }, []);
+
+  const fetchCompletionPics = async () => {
+    try {
+      const response = await fetch('/api/completion-pics');
+      if (response.ok) {
+        const data = await response.json();
+        setCompletionPics(data.completionPics || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch completion pics:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -62,7 +94,10 @@ export default function CompletionPicsPage() {
       console.log('Submission successful:', result);
       
       setSubmitted(true);
-
+      
+      // Refresh the gallery
+      await fetchCompletionPics();
+      
       // Reset form after 3 seconds
       setTimeout(() => {
         setSubmitted(false);
@@ -231,7 +266,7 @@ export default function CompletionPicsPage() {
               onChange={handleChange}
               rows={5}
               className="w-full p-4 border-2 border-amber-300 rounded-lg text-lg focus:outline-none focus:border-amber-500 transition-colors"
-              placeholder="Tell us about your puzzle journey! How long did it take? Any challenges?Assing pieces? Was it worth it?"
+              placeholder="Tell us about your puzzle journey! How long did it take? Any challenges? Missing pieces? Was it worth it?"
               disabled={isSubmitting}
             />
             <p className="text-sm text-amber-700 mt-2 italic">
@@ -253,27 +288,47 @@ export default function CompletionPicsPage() {
       {/* Gallery Section */}
       <div className="mt-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl shadow-xl p-8 border-4 border-amber-400">
         <h2 className="text-3xl font-bold text-amber-900 mb-6">🖼️ Completion Gallery</h2>
-        <p className="text-amber-700 italic mb-4">Submitted photos will appear here...</p>
         
-        {/* Sample entry to show what it looks like */}
-        <div className="bg-white rounded-lg p-6 shadow-lg border-2 border-amber-300">
-          <div className="flex justify-between items-start mb-4">
-            <h3 className="text-xl font-bold text-amber-900">📍 Example Completion</h3>
-            <span className="text-sm text-amber-700">Dec 20, 2025</span>
+        {loading ? (
+          <p className="text-amber-700 italic">Loading completion photos...</p>
+        ) : completionPics.length === 0 ? (
+          <p className="text-amber-700 italic">No completion photos yet. Be the first to share!</p>
+        ) : (
+          <div className="space-y-6">
+            {completionPics.map((pic) => (
+              <div key={pic.id} className="bg-white rounded-lg p-6 shadow-lg border-2 border-amber-300">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-xl font-bold text-amber-900">📍 {pic.location}</h3>
+                  <span className="text-sm text-amber-700">
+                    {new Date(pic.completionDate).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'short', 
+                      day: 'numeric' 
+                    })}
+                  </span>
+                </div>
+                <img
+                  src={pic.imageUrl}
+                  alt={`Completed by ${pic.name}`}
+                  className="w-full h-auto rounded mb-4 max-h-96 object-cover"
+                />
+                <p className="text-lg text-gray-800 mb-2">
+                  <strong>Completed by:</strong> {pic.name}
+                </p>
+                {pic.caption && (
+                  <p className="text-lg text-gray-800 mb-2">
+                    <strong>Caption:</strong> {pic.caption}
+                  </p>
+                )}
+                {pic.story && (
+                  <p className="text-gray-700 italic mt-3">
+                    "{pic.story}"
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
-          <div className="bg-gray-200 rounded h-64 flex items-center justify-center mb-4">
-            <p className="text-gray-500 text-lg">Your photo will appear here!</p>
-          </div>
-          <p className="text-lg text-gray-800 mb-2">
-            <strong>Completed by:</strong> Sample User
-          </p>
-          <p className="text-lg text-gray-800 mb-2">
-            <strong>Location:</strong> Seattle, Washington, USA
-          </p>
-          <p className="text-gray-700 italic">
-            "This is where your completion story will appear! Share the joy of finishing the puzzle."
-          </p>
-        </div>
+        )}
       </div>
     </main>
   );
