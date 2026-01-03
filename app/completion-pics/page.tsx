@@ -9,15 +9,22 @@ export default function CompletionPicsPage() {
     caption: '',
     story: ''
   });
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Store the actual File object for upload
+      setSelectedImage(file);
+      
+      // Create preview URL for display
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSelectedImage(reader.result as string);
+        setSelectedImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -25,24 +32,55 @@ export default function CompletionPicsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // For now, we'll just show a success message
-    // Later we can connect to a backend/database
-    console.log('Form submitted:', { ...formData, image: selectedImage });
-    setSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: '',
-        location: '',
-        completionDate: '',
-        caption: '',
-        story: ''
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      // Create FormData for multipart/form-data upload
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('location', formData.location);
+      submitData.append('completionDate', formData.completionDate);
+      submitData.append('caption', formData.caption);
+      submitData.append('story', formData.story);
+      
+      if (selectedImage) {
+        submitData.append('image', selectedImage);
+      }
+
+      // POST to API route
+      const response = await fetch('/api/completion-pics', {
+        method: 'POST',
+        body: submitData,
       });
-      setSelectedImage(null);
-    }, 3000);
+
+      if (!response.ok) {
+        throw new Error('Failed to submit completion photo');
+      }
+
+      const result = await response.json();
+      console.log('Submission successful:', result);
+      
+      setSubmitted(true);
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          name: '',
+          location: '',
+          completionDate: '',
+          caption: '',
+          story: ''
+        });
+        setSelectedImage(null);
+        setSelectedImagePreview(null);
+      }, 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -70,183 +108,171 @@ export default function CompletionPicsPage() {
           Share your completed puzzle photos and celebrate your achievement! Show us where you completed it and tell your story.
         </p>
 
+        {/* Success Message */}
         {submitted && (
-          <div className="bg-green-100 border-2 border-green-500 text-green-800 px-6 py-4 rounded-lg mb-6 text-center font-bold animate-pulse">
-            ✅ Thank you! Your completion photo has been submitted!
+          <div className="mb-6 p-4 bg-green-100 border border-green-300 rounded-lg text-green-800 text-lg">
+            ✓ Success! Your completion photo has been shared. Thank you for contributing!
           </div>
         )}
 
-        <div className="bg-white rounded-2xl shadow-2xl p-8 border-4 border-amber-600">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6">📸 Upload Your Completion Photo</h2>
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Image Upload */}
-            <div>
-              <label htmlFor="image" className="block text-lg font-bold text-amber-900 mb-2">
-                Upload Photo *
-              </label>
-              <div className="border-4 border-dashed border-amber-300 rounded-lg p-8 text-center hover:border-amber-600 transition-colors">
-                {selectedImage ? (
-                  <div className="space-y-4">
-                    <img 
-                      src={selectedImage} 
-                      alt="Preview" 
-                      className="max-w-full max-h-96 mx-auto rounded-lg shadow-lg"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setSelectedImage(null)}
-                      className="text-red-600 hover:text-red-800 font-bold"
-                    >
-                      ❌ Remove Image
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <svg className="mx-auto h-16 w-16 text-amber-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <input
-                      type="file"
-                      id="image"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      required
-                      className="hidden"
-                    />
-                    <label 
-                      htmlFor="image"
-                      className="cursor-pointer inline-block bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-lg font-bold transition-colors"
-                    >
-                      📷 Choose Image
-                    </label>
-                    <p className="text-sm text-amber-700 mt-4">
-                      Upload a photo of your completed puzzle (JPG, PNG, or GIF)
-                    </p>
-                  </div>
-                )}
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-100 border border-red-300 rounded-lg text-red-800 text-lg">
+            ✗ Error: {error}
+          </div>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-2xl p-8 border-4 border-amber-200">
+          {/* Your Name */}
+          <div className="mb-6">
+            <label htmlFor="name" className="block text-xl font-bold text-amber-900 mb-2">
+              📝 Your Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full p-4 border-2 border-amber-300 rounded-lg text-lg focus:outline-none focus:border-amber-500 transition-colors"
+              placeholder="Who completed this puzzle?"
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Location */}
+          <div className="mb-6">
+            <label htmlFor="location" className="block text-xl font-bold text-amber-900 mb-2">
+              📍 Where did you complete it?
+            </label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              required
+              className="w-full p-4 border-2 border-amber-300 rounded-lg text-lg focus:outline-none focus:border-amber-500 transition-colors"
+              placeholder="City, State or specific location"
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Completion Date */}
+          <div className="mb-6">
+            <label htmlFor="completionDate" className="block text-xl font-bold text-amber-900 mb-2">
+              📅 Completion Date
+            </label>
+            <input
+              type="date"
+              id="completionDate"
+              name="completionDate"
+              value={formData.completionDate}
+              onChange={handleChange}
+              required
+              className="w-full p-4 border-2 border-amber-300 rounded-lg text-lg focus:outline-none focus:border-amber-500 transition-colors"
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Upload Photo */}
+          <div className="mb-6">
+            <label htmlFor="photo" className="block text-xl font-bold text-amber-900 mb-2">
+              📸 Upload Your Completion Photo
+            </label>
+            <input
+              type="file"
+              id="photo"
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+              className="w-full p-4 border-2 border-amber-300 rounded-lg text-lg focus:outline-none focus:border-amber-500 transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200"
+              disabled={isSubmitting}
+            />
+            {selectedImagePreview && (
+              <div className="mt-4">
+                <img
+                  src={selectedImagePreview}
+                  alt="Preview"
+                  className="max-w-full h-auto rounded-lg shadow-lg max-h-96 object-contain"
+                />
               </div>
-            </div>
+            )}
+          </div>
 
-            {/* Name */}
-            <div>
-              <label htmlFor="name" className="block text-lg font-bold text-amber-900 mb-2">
-                Your Name *
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
-                placeholder="Enter your name"
-              />
-            </div>
+          {/* Caption */}
+          <div className="mb-6">
+            <label htmlFor="caption" className="block text-xl font-bold text-amber-900 mb-2">
+              💬 Caption (Optional)
+            </label>
+            <input
+              type="text"
+              id="caption"
+              name="caption"
+              value={formData.caption}
+              onChange={handleChange}
+              className="w-full p-4 border-2 border-amber-300 rounded-lg text-lg focus:outline-none focus:border-amber-500 transition-colors"
+              placeholder="Short description of your photo"
+              disabled={isSubmitting}
+            />
+          </div>
 
-            {/* Location */}
-            <div>
-              <label htmlFor="location" className="block text-lg font-bold text-amber-900 mb-2">
-                Where Did You Complete It? *
-              </label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
-                placeholder="City, State, Country"
-              />
-            </div>
-
-            {/* Completion Date */}
-            <div>
-              <label htmlFor="completionDate" className="block text-lg font-bold text-amber-900 mb-2">
-                Completion Date *
-              </label>
-              <input
-                type="date"
-                id="completionDate"
-                name="completionDate"
-                value={formData.completionDate}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
-              />
-            </div>
-
-            {/* Caption */}
-            <div>
-              <label htmlFor="caption" className="block text-lg font-bold text-amber-900 mb-2">
-                Photo Caption
-              </label>
-              <input
-                type="text"
-                id="caption"
-                name="caption"
-                value={formData.caption}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
-                placeholder="A short caption for your photo (optional)"
-              />
-            </div>
-
-            {/* Story */}
-            <div>
-              <label htmlFor="story" className="block text-lg font-bold text-amber-900 mb-2">
-                Your Completion Story 🎉
-              </label>
-              <textarea
-                id="story"
-                name="story"
-                value={formData.story}
-                onChange={handleChange}
-                rows={6}
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
-                placeholder="Tell us about your puzzle journey... How long did it take? Any challenges? Missing pieces? Was it worth it?"
-              />
-              <p className="text-sm text-amber-700 mt-2 italic">
-                Optional: Share your experience completing this puzzle!
-              </p>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-lg shadow-xl font-bold text-xl transition-all duration-300 hover:scale-105"
-            >
-              ✨ Share My Completion Photo
-            </button>
-          </form>
-        </div>
-
-        {/* Gallery Section */}
-        <div className="mt-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl shadow-xl p-8 border-4 border-amber-400">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6">🖼️ Completion Gallery</h2>
-          <p className="text-amber-700 italic mb-4">Submitted photos will appear here...</p>
-          
-          {/* Sample entry to show what it looks like */}
-          <div className="bg-white rounded-lg p-6 shadow-lg border-2 border-amber-300">
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold text-amber-900">🎆 Example Completion</h3>
-              <span className="text-sm text-amber-700">Dec 20, 2025</span>
-            </div>
-            <div className="bg-gray-200 rounded-lg h-64 flex items-center justify-center mb-4">
-              <p className="text-gray-500 text-lg">Your photo will appear here!</p>
-            </div>
-            <p className="text-lg text-gray-800 mb-2">
-              <strong>Completed by:</strong> Sample User
-            </p>
-            <p className="text-lg text-gray-800 mb-2">
-              <strong>Location:</strong> Seattle, Washington, USA
-            </p>
-            <p className="text-gray-700 italic">
-              "This is where your completion story will appear! Share the joy of finishing the puzzle."
+          {/* Story */}
+          <div className="mb-8">
+            <label htmlFor="story" className="block text-xl font-bold text-amber-900 mb-2">
+              📖 Your Completion Story (Optional)
+            </label>
+            <textarea
+              id="story"
+              name="story"
+              value={formData.story}
+              onChange={handleChange}
+              rows={5}
+              className="w-full p-4 border-2 border-amber-300 rounded-lg text-lg focus:outline-none focus:border-amber-500 transition-colors"
+              placeholder="Tell us about your puzzle journey! How long did it take? Any challenges?Assing pieces? Was it worth it?"
+              disabled={isSubmitting}
+            />
+            <p className="text-sm text-amber-700 mt-2 italic">
+              Optional: Share your experience completing this puzzle!
             </p>
           </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-lg shadow-xl font-bold text-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? '⏳ Uploading...' : '✨ Share My Completion Photo'}
+          </button>
+        </form>
+      </div>
+
+      {/* Gallery Section */}
+      <div className="mt-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl shadow-xl p-8 border-4 border-amber-400">
+        <h2 className="text-3xl font-bold text-amber-900 mb-6">🖼️ Completion Gallery</h2>
+        <p className="text-amber-700 italic mb-4">Submitted photos will appear here...</p>
+        
+        {/* Sample entry to show what it looks like */}
+        <div className="bg-white rounded-lg p-6 shadow-lg border-2 border-amber-300">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-xl font-bold text-amber-900">📍 Example Completion</h3>
+            <span className="text-sm text-amber-700">Dec 20, 2025</span>
+          </div>
+          <div className="bg-gray-200 rounded h-64 flex items-center justify-center mb-4">
+            <p className="text-gray-500 text-lg">Your photo will appear here!</p>
+          </div>
+          <p className="text-lg text-gray-800 mb-2">
+            <strong>Completed by:</strong> Sample User
+          </p>
+          <p className="text-lg text-gray-800 mb-2">
+            <strong>Location:</strong> Seattle, Washington, USA
+          </p>
+          <p className="text-gray-700 italic">
+            "This is where your completion story will appear! Share the joy of finishing the puzzle."
+          </p>
         </div>
       </div>
     </main>
