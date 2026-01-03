@@ -1,16 +1,48 @@
-import { put, del } from '@vercel/blob';
-import { kv } from '@vercel/kv';
 import { NextRequest, NextResponse } from 'next/server';
+import { put, list, del } from '@vercel/blob';
 
-export interface CompletionPic {
+interface CompletionPic {
   id: string;
-  name: string;
-  location: string;
-  completionDate: string;
-  caption: string;
-  story: string;
   imageUrl: string;
-  timestamp: number;
+  caption: string;
+  submittedBy: string;
+  location: string;
+  dateCompleted: string;
+  createdAt: string;
+}
+
+const METADATA_BLOB_NAME = 'completion-pics-metadata.json';
+
+async function getMetadata(): Promise<CompletionPic[]> {
+  try {
+    const { blobs } = await list({ prefix: METADATA_BLOB_NAME });
+    if (blobs.length === 0) return [];
+    
+    const response = await fetch(blobs[0].url);
+    if (!response.ok) return [];
+    
+    return await response.json();
+  } catch {
+    return [];
+  }
+}
+
+async function saveMetadata(pics: CompletionPic[]): Promise<void> {
+  // Delete old metadata blob if exists
+  try {
+    const { blobs } = await list({ prefix: METADATA_BLOB_NAME });
+    for (const blob of blobs) {
+      await del(blob.url);
+    }
+  } catch {
+    // Ignore deletion errors
+  }
+  
+  // Save new metadata
+  await put(METADATA_BLOB_NAME, JSON.stringify(pics), {
+    access: 'public',
+    contentType: 'application/json',
+  });
 }
 
 // POST - Upload new completion pic
@@ -54,26 +86,21 @@ export async function POST(request: NextRequest) {
       addRandomSuffix: true,
     });
 
-    // Create entry with unique ID
+    // Create entry
     const entry: CompletionPic = {
       id: `completion-pic:${Date.now()}`,
-      name,
-      location: location || '',
-      completionDate: completionDate || new Date().toISOString(),
-      caption: caption || '',
-      story: story || '',
       imageUrl: blob.url,
-      timestamp: Date.now(),
+      submittedBy: name,
+      location: location || '',
+      dateCompleted: completionDate || new Date().toISOString(),
+      caption: caption || '',
+      createdAt: new Date().toISOString(),
     };
 
-    // Store metadata in Vercel KV
-    await kv.set(entry.id, entry);
-    
-    // Add to sorted set for easy retrieval
-    await kv.zadd('completion-pics:timeline', {
-      score: entry.timestamp,
-      member: entry.id,
-    });
+    // Get existing metadata and add new entry
+    const existingPics = await getMetadata();
+    existingPics.unshift(entry); // Add to beginning
+    await saveMetadata(existingPics);
 
     return NextResponse.json({ success: true, data: entry }, { status: 201 });
   } catch (error) {
@@ -88,24 +115,8 @@ export async function POST(request: NextRequest) {
 // GET - Retrieve all completion pics
 export async function GET() {
   try {
-    // Get all entry IDs from sorted set (newest first)
-    const entryIds = await kv.zrange('completion-pics:timeline', 0, -1, {
-      rev: true,
-    });
-
-    if (!entryIds || entryIds.length === 0) {
-      return NextResponse.json({ data: [] });
-    }
-
-    // Fetch all entries
-    const entries = await Promise.all(
-      entryIds.map((id) => kv.get<CompletionPic>(id as string))
-    );
-
-    // Filter out null values
-    const validEntries = entries.filter((entry): entry is CompletionPic => entry !== null);
-
-    return NextResponse.json({ data: validEntries });
+    const pics = await getMetadata();
+    return NextResponse.json({ data: pics });
   } catch (error) {
     console.error('Error fetching pics:', error);
     return NextResponse.json(
@@ -129,12 +140,13 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Delete from Vercel Blob
+    // Delete image from Vercel Blob
     await del(imageUrl);
 
-    // Delete from KV
-    await kv.del(id);
-    await kv.zrem('completion-pics:timeline', id);
+    // Remove from metadata
+    const existingPics = await getMetadata();
+    const updatedPics = existingPics.filter(pic => pic.id !== id);
+    await saveMetadata(updatedPics);
 
     return NextResponse.json({ success: true });
   } catch (error) {
