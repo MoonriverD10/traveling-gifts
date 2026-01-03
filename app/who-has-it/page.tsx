@@ -1,7 +1,51 @@
+'use client';
+import { useState } from 'react';
+
 export default function WhoHasItPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    location: '',
+    city: '',
+    state: '',
+    country: '',
+    dateReceived: '',
+    story: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // For now, we'll just show a success message
+    // Later we can connect to a backend/database
+    console.log('Form submitted:', formData);
+    setSubmitted(true);
+    
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      setSubmitted(false);
+      setFormData({
+        name: '',
+        location: '',
+        city: '',
+        state: '',
+        country: '',
+        dateReceived: '',
+        story: ''
+      });
+    }, 3000);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
     <main className="min-h-screen bg-amber-50 p-8">
-            {/* Home Button - Top Left Corner */}
+      {/* Home Button - Top Left Corner */}
       <a href="/" className="fixed top-6 left-6 z-50 group">
         <button className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-lg shadow-xl font-bold text-base transition-all duration-300 hover:scale-105 flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -12,13 +56,155 @@ export default function WhoHasItPage() {
       </a>
 
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-amber-900 mb-4">Who Has It?</h1>
-        <p className="text-lg text-amber-800">
-          Track the current location of the traveling puzzle...
+        <h1 className="text-4xl font-bold text-amber-900 mb-4">🌍 Who Has It?</h1>
+        <p className="text-lg text-amber-800 mb-8">
+          Log your location and share your story with the puzzle! Let others know where the journey has taken you.
         </p>
-        <a href="/" className="inline-block mt-6 px-6 py-3 bg-amber-900 text-amber-50 rounded-lg hover:bg-amber-800">
-          ← Back to Home
-        </a>
+
+        {submitted && (
+          <div className="bg-green-100 border-2 border-green-500 text-green-800 px-6 py-4 rounded-lg mb-6 text-center font-bold animate-pulse">
+            ✅ Thank you! Your entry has been submitted!
+          </div>
+        )}
+
+        <div className="bg-white rounded-2xl shadow-2xl p-8 border-4 border-amber-600">
+          <h2 className="text-2xl font-bold text-amber-900 mb-6">📝 Log Your Puzzle Location</h2>
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name */}
+            <div>
+              <label htmlFor="name" className="block text-lg font-bold text-amber-900 mb-2">
+                Your Name *
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                placeholder="Enter your name"
+              />
+            </div>
+
+            {/* Location Details */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="city" className="block text-lg font-bold text-amber-900 mb-2">
+                  City *
+                </label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                  placeholder="City"
+                />
+              </div>
+              <div>
+                <label htmlFor="state" className="block text-lg font-bold text-amber-900 mb-2">
+                  State/Province *
+                </label>
+                <input
+                  type="text"
+                  id="state"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                  placeholder="State/Province"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="country" className="block text-lg font-bold text-amber-900 mb-2">
+                Country *
+              </label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                placeholder="Country"
+              />
+            </div>
+
+            {/* Date Received */}
+            <div>
+              <label htmlFor="dateReceived" className="block text-lg font-bold text-amber-900 mb-2">
+                Date You Received the Puzzle *
+              </label>
+              <input
+                type="date"
+                id="dateReceived"
+                name="dateReceived"
+                value={formData.dateReceived}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+              />
+            </div>
+
+            {/* Story */}
+            <div>
+              <label htmlFor="story" className="block text-lg font-bold text-amber-900 mb-2">
+                Your Puzzle Story 📖
+              </label>
+              <textarea
+                id="story"
+                name="story"
+                value={formData.story}
+                onChange={handleChange}
+                rows={6}
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                placeholder="Share your experience with the puzzle... Where did you work on it? Any memorable moments? Did your cat steal any pieces?"
+              />
+              <p className="text-sm text-amber-700 mt-2 italic">
+                Optional: Tell us about your puzzle journey! This will appear on the map and history.
+              </p>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-lg shadow-xl font-bold text-xl transition-all duration-300 hover:scale-105"
+            >
+              🚀 Submit My Location
+            </button>
+          </form>
+        </div>
+
+        {/* Example Entries Section */}
+        <div className="mt-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl shadow-xl p-8 border-4 border-amber-400">
+          <h2 className="text-2xl font-bold text-amber-900 mb-6">🗺️ Recent Puzzle Travelers</h2>
+          <p className="text-amber-700 italic mb-4">Submitted entries will appear here...</p>
+          
+          {/* Sample entry to show what it looks like */}
+          <div className="bg-white rounded-lg p-6 shadow-lg border-2 border-amber-300">
+            <div className="flex justify-between items-start mb-3">
+              <h3 className="text-xl font-bold text-amber-900">📍 Example Entry</h3>
+              <span className="text-sm text-amber-700">Dec 15, 2025</span>
+            </div>
+            <p className="text-lg text-gray-800 mb-2">
+              <strong>Name:</strong> Sample User
+            </p>
+            <p className="text-lg text-gray-800 mb-2">
+              <strong>Location:</strong> Portland, Oregon, USA
+            </p>
+            <p className="text-gray-700 italic">
+              "This is where your story will appear! Share your puzzle adventure and be part of the journey."
+            </p>
+          </div>
+        </div>
       </div>
     </main>
   );
