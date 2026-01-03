@@ -83,7 +83,7 @@ export default function WhoHasItPage() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                 placeholder="Enter your name"
               />
             </div>
@@ -101,7 +101,7 @@ export default function WhoHasItPage() {
                   value={formData.city}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                  className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                   placeholder="City"
                 />
               </div>
@@ -116,7 +116,7 @@ export default function WhoHasItPage() {
                   value={formData.state}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                  className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                   placeholder="State/Province"
                 />
               </div>
@@ -133,7 +133,7 @@ export default function WhoHasItPage() {
                 value={formData.country}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                 placeholder="Country"
               />
             </div>
@@ -150,7 +150,7 @@ export default function WhoHasItPage() {
                 value={formData.dateReceived}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
               />
             </div>
 
@@ -165,7 +165,7 @@ export default function WhoHasItPage() {
                 value={formData.story}
                 onChange={handleChange}
                 rows={6}
-                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg"
+                className="w-full px-4 py-3 border-2 border-amber-300 rounded-lg focus:border-amber-600 focus:outline-none text-lg placeholder-gray-600"
                 placeholder="Share your experience with the puzzle... Where did you work on it? Any memorable moments? Did your cat steal any pieces?"
               />
               <p className="text-sm text-amber-700 mt-2 italic">
