@@ -12,6 +12,17 @@ interface CompletionPic {
   timestamp: number;
 }
 
+function formatDate(dateStr: string) {
+  if (!dateStr) return '';
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return '';
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
 export default function CompletionPicsPage() {
   const [formData, setFormData] = useState({
     name: '',
@@ -300,11 +311,7 @@ export default function CompletionPicsPage() {
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-bold text-amber-900">📍 {pic.location}</h3>
                   <span className="text-sm text-amber-700">
-                    {new Date(pic.completionDate).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'short', 
-                      day: 'numeric' 
-                    })}
+                    {formatDate(pic.completionDate)}
                   </span>
                 </div>
                 <img
