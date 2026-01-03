@@ -5,7 +5,7 @@ interface CompletionPic {
   id: string;
   submittedBy: string;
   location: string;
-  completionDate: string;
+  dateCompleted: string;
   caption: string;
   story: string;
   imageUrl: string;
@@ -27,7 +27,7 @@ export default function CompletionPicsPage() {
   const [formData, setFormData] = useState({
     name: '',
     location: '',
-    completionDate: '',
+    dateCompleted: '',
     caption: '',
     story: ''
   });
@@ -83,7 +83,7 @@ export default function CompletionPicsPage() {
       const submitData = new FormData();
       submitData.append('name', formData.name);
       submitData.append('location', formData.location);
-      submitData.append('completionDate', formData.completionDate);
+      submitData.append('dateCompleted', formData.dateCompleted);
       submitData.append('caption', formData.caption);
       submitData.append('story', formData.story);
       
@@ -115,7 +115,7 @@ export default function CompletionPicsPage() {
         setFormData({
           name: '',
           location: '',
-          completionDate: '',
+          dateCompleted: '',
           caption: '',
           story: ''
         });
@@ -208,14 +208,14 @@ export default function CompletionPicsPage() {
 
           {/* Completion Date */}
           <div className="mb-6">
-            <label htmlFor="completionDate" className="block text-xl font-bold text-amber-900 mb-2">
+            <label htmlFor="dateCompleted" className="block text-xl font-bold text-amber-900 mb-2">
               📅 Completion Date
             </label>
             <input
               type="date"
-              id="completionDate"
-              name="completionDate"
-              value={formData.completionDate}
+              id="dateCompleted"
+              name="dateCompleted"
+              value={formData.dateCompleted}
               onChange={handleChange}
               required
               className="w-full p-4 border-2 border-amber-300 rounded-lg text-lg focus:outline-none focus:border-amber-500 transition-colors"
@@ -311,7 +311,7 @@ export default function CompletionPicsPage() {
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-bold text-amber-900">📍 {pic.location}</h3>
                   <span className="text-sm text-amber-700">
-                    {formatDate(pic.completionDate)}
+                    {formatDate(pic.dateCompleted)}
                   </span>
                 </div>
                 <img
